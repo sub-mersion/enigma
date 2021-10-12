@@ -88,7 +88,7 @@ func (m *Machine) encryptFromInts(input []int) []int {
 	return res
 }
 
-// compose return the mathemathical composition of the given functions.
+// compose returns the mathemathical composition of the given functions.
 // For example, compose(f, g, h)(i) is equivalent to h(g(f(i))).
 func compose(fs ...func(int) int) func(int) int {
 	return func(i int) int {
