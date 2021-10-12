@@ -88,6 +88,17 @@ func (m *Machine) encryptFromInts(input []int) []int {
 	return res
 }
 
+// compose return the mathemathical composition of the given functions.
+// For example, compose(f, g, h)(i) is equivalent to h(g(f(i))).
+func compose(fs ...func(int) int) func(int) int {
+	return func(i int) int {
+		for _, f := range fs {
+			i = f(i)
+		}
+		return i
+	}
+}
+
 // mod26 returns the mathematical modulo of i by 26. Result is in [0,26[.
 func mod26(i int) int {
 	return (i%26 + 26) % 26

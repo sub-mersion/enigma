@@ -35,12 +35,3 @@ type (
 		RotorPos [3]int
 	}
 )
-
-func compose(fs ...func(int) int) func(int) int {
-	return func(i int) int {
-		for _, f := range fs {
-			i = f(i)
-		}
-		return i
-	}
-}
