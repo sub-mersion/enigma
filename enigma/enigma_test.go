@@ -9,6 +9,7 @@ import (
 // Test for text at theses pages
 // https://www.codesandciphers.org.uk/enigma/enigma3.htm
 // https://www.codesandciphers.org.uk/enigma/emachines/enigmad.htm
+// https://fr.wikipedia.org/wiki/Enigma_(machine)
 
 // Simple keys given as rotors starting position followed by ring settings.
 var (
@@ -81,5 +82,19 @@ func TestSymmetry(t *testing.T) {
 	got := m.Encrypt(cypher)
 	if got != input {
 		t.Fatalf("got\n%s\nwant\n%s\n", got, input)
+	}
+}
+
+// TestNonUppercaseRune check that runes outside the range [A-Z] are streamed
+// untouched to the output, as promised by a TODO in the README. It implies to
+// rewrite some code in the Machine.Encrypt() method, as it does not work with
+// rune in a satisfactory manner. Also, there should be a warning issue and we
+// should check this as well.
+func TestNonUppercaseRune(t *testing.T) {
+	input := "abcd (§12-_*$^ùâĒ?~	}\t\n"
+	m := NewMachine(JDK_DEA)
+	got := m.Encrypt(input)
+	if got != input {
+		t.Fatalf("got %q want %q", got, input)
 	}
 }

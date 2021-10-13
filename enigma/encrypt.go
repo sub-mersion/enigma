@@ -78,10 +78,11 @@ func (m *Machine) encryptFromInts(input []int) []int {
 	// Encryption loop
 	for i, x := range input {
 		log.Printf("Input is: %c", rune('A'+x))
-		rotate()
-		if x < 0 || x > 26 {
+		if x < 0 || x >= 26 {
+			res[i] = x
 			continue
 		}
+		rotate()
 		res[i] = crypt(x)
 	}
 
