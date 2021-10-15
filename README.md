@@ -10,8 +10,9 @@ hardcoded key.
 
 ### Package
 
-- [ ] Every input character that is not in [A-Z] is a no-op and is output as it is. A warning should be sent.
+- [ ] Every input character that is not in [A-Z] is a no-op and is output as it is. A warning should be sent. This requires to properly convert the character to int
 - [ ] Refactor a bit, and make the package exposed API sound and clear.
+- [ ] Log only if asked for
 - [ ] Benchmark
 - [ ] Log state if needed in the following form:
 
