@@ -19,9 +19,23 @@ var k = enigma.Key{
 }
 
 func main() {
+	var keyString string
+
 	app := cli.App{
 		Name:  "enigma",
 		Usage: "encrypt and decrypt text emulating a 3-rotor german enigma machine -- USE HARDOCDED KEY FOR NOW",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:    "key",
+				Aliases: []string{"k"},
+				Value:   "AAA_AAA",
+				Usage: "gives a `KEY` in the form " + `AAA_BBB or AAA_BBB_CC_CC_CC, where
+		AAA are the initial position of the rotors,
+		BBB the ring settings,
+		and CC_CC_CC... the plugoboard settings.`,
+				Destination: &keyString,
+			},
+		},
 		Action: func(c *cli.Context) error {
 			log.SetOutput(os.Stderr)
 			m := enigma.NewMachine(k)
