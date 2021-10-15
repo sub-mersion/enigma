@@ -1,7 +1,6 @@
 package enigma
 
 import (
-	"log"
 	"strings"
 )
 
@@ -28,12 +27,10 @@ func (m *Machine) Encrypt(input string) string {
 func (m *Machine) encryptFromInts(input []int) []int {
 	plugboard := newPlugboard(m.key.PluboardSetting)
 	plugboardMapping := func(i int) int {
-		log.Printf("Plugboard: %c\n", rune('A'+plugboard[i]))
 		return plugboard[i]
 	}
 
 	reflection := func(i int) int {
-		log.Printf("Reflector forward: %c\n", rune('A'+m.key.Reflector[i]))
 		return m.key.Reflector[i]
 	}
 
@@ -41,7 +38,6 @@ func (m *Machine) encryptFromInts(input []int) []int {
 		for j, r := range m.key.Rotors {
 			shift := m.RotorPos[j] - int(m.key.RingSettings[j]-'A')
 			i = mod26(r.ForwardWiring[mod26(i+shift)] - shift)
-			log.Printf("Rotors %d forward: %c\n", j, rune('A'+i))
 		}
 		return i
 	}
@@ -50,8 +46,6 @@ func (m *Machine) encryptFromInts(input []int) []int {
 		for j := 2; j >= 0; j-- {
 			shift := m.RotorPos[j] - int(m.key.RingSettings[j]-'A')
 			i = mod26(m.key.Rotors[j].BackwardWiring[mod26(i+shift)] - shift)
-			log.Printf("Rotors %d backward: %c\n", j, rune('A'+i))
-
 		}
 		return i
 	}
@@ -81,9 +75,7 @@ func (m *Machine) encryptFromInts(input []int) []int {
 
 	// Encryption loop
 	for i, x := range input {
-		log.Printf("Input is: %c", rune('A'+x))
 		if x < 0 || x >= 26 {
-			log.Printf("Out of range rune: %c\n", 'A'+x)
 			res[i] = x
 			continue
 		}
