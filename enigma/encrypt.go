@@ -23,6 +23,17 @@ func (m *Machine) Encrypt(input string) string {
 	return b.String()
 }
 
+func (m *Machine) rotate() {
+	if m.RotorPos[1] == m.key.Rotors[1].NotchIndex {
+		m.RotorPos[2]++
+		m.RotorPos[1]++
+	}
+	if m.RotorPos[0] == m.key.Rotors[0].NotchIndex {
+		m.RotorPos[1]++
+	}
+	m.RotorPos[0]++
+}
+
 // encryptFromInts works with ints and perform the actual encryption.
 func (m *Machine) encryptFromInts(input []int) []int {
 	plugboard := newPlugboard(m.key.PluboardSetting)
@@ -50,17 +61,6 @@ func (m *Machine) encryptFromInts(input []int) []int {
 		return i
 	}
 
-	rotate := func() {
-		if m.RotorPos[1] == m.key.Rotors[1].NotchIndex {
-			m.RotorPos[2]++
-			m.RotorPos[1]++
-		}
-		if m.RotorPos[0] == m.key.Rotors[0].NotchIndex {
-			m.RotorPos[1]++
-		}
-		m.RotorPos[0]++
-	}
-
 	// The whole encrypting function, except for rotors movements.
 	// It actually performs 13 letter swaps on the alphabet.
 	crypt := compose(
@@ -79,7 +79,7 @@ func (m *Machine) encryptFromInts(input []int) []int {
 			res[i] = x
 			continue
 		}
-		rotate()
+		m.rotate()
 		res[i] = crypt(x)
 	}
 
