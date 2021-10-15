@@ -1,7 +1,6 @@
 package enigma
 
 import (
-	"fmt"
 	"log"
 	"strings"
 )
@@ -9,21 +8,14 @@ import (
 // Encrypt encrypts the input string starting from machine's current state. When
 // called for the first time, it starts from the given key.
 func (m *Machine) Encrypt(input string) string {
-	//! This loops introduces some 'A' characters !!!!
-	arr := make([]int, len(input))
-	for i, r := range input {
+
+	runeInput := []rune(input)
+	arr := make([]int, len([]rune(runeInput)))
+	for i, r := range runeInput {
 		arr[i] = int(r - 'A')
 	}
-	fmt.Println(arr)
-	res := m.encryptFromInts(arr)
 
-	// Printing to see there is actually a problem for special character. The underlying bytes array is much longer no ?
-	bis := make([]rune, len(input))
-	for i, r := range arr {
-		bis[i] = rune('A' + r)
-	}
-	s := string(bis)
-	fmt.Println("the reconstructed string is :", s)
+	res := m.encryptFromInts(arr)
 
 	var b strings.Builder
 	for _, i := range res {
