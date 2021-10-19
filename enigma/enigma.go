@@ -31,7 +31,9 @@ type (
 	// Machine represents an enigma machine with a given key. Holding the
 	// rings' positions during execution, it is the only stateful type.
 	Machine struct {
-		key      Key
+		key Key
+		// RotorPos holds the rotor positions. It is exported so that
+		// they can be rotated prior to operation.
 		RotorPos [3]int
 	}
 )
